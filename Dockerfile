@@ -80,6 +80,7 @@ COPY package-lock.json .
 RUN npm i -g npm
 RUN npm install
 COPY . .
+RUN rm .env
 RUN composer install
 RUN npm run prod
 
@@ -89,6 +90,7 @@ RUN chown -R www-data:www-data \
     /var/www/html/bootstrap/cache
 
 # RUN mv .env.prod .env
+COPY .env .
 RUN php artisan optimize
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public

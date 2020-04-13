@@ -1,7 +1,7 @@
 version: '3'
 services:
   laravel-blog:
-    #                network_mode: host
+    network_mode: host
     restart: always
     image: axmouth/laravel-blog-server:latest
     container_name: laravel-blog-server
