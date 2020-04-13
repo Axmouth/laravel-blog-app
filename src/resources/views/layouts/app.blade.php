@@ -28,6 +28,7 @@
 <body>
     <div id="app">
         @include('inc.navbar')
+        {{$_SERVER['HTTP_HOST'] }}
         <main class="container py-4">
             @include('inc.messages')
             @yield('content')
