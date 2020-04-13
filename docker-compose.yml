@@ -9,12 +9,12 @@ services:
       - 15555:80
     environment:
       - DB_HOST=host.docker.internal
-  apache:
-    build:
-      context: '.'
-    image: axmouth/laravel-blog-apache:latest
-    container_name: laravel-blog-apache
-    ports:
-      - 15554:80
-    links:
-      - laravel-blog
+#  apache:
+#    build:
+#      context: '.'
+#    image: axmouth/laravel-blog-apache:latest
+#    container_name: laravel-blog-apache
+#    ports:
+#      - 15554:80
+#    links:
+#      - laravel-blog

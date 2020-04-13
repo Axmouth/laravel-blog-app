@@ -81,6 +81,7 @@ RUN npm i -g npm
 RUN npm install
 COPY . .
 RUN npm run prod
+RUN composer install
 
 # Or do this
 RUN chown -R www-data:www-data \
@@ -88,7 +89,6 @@ RUN chown -R www-data:www-data \
     /var/www/html/bootstrap/cache
 
 # RUN mv .env.prod .env
-RUN composer install
 RUN php artisan optimize
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
