@@ -1,20 +1,37 @@
 version: '3'
 services:
-  laravel-blog:
-    network_mode: host
+  laravel-blog-app-db:
+    image: postgres:12.2-alpine
+    container_name: laravel-app-blog-db
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DATABASE=${DB_DATABASE}
+    volumes:
+      - laravel-blog-app-data:/var/lib/postgresql/data:delegated
+      - laravel-blog-app-data:/var/www/html/public/storage:delegated
+  laravel-blog-app:
+    #network_mode: host
     restart: always
     image: axmouth/laravel-blog-server:latest
-    container_name: laravel-blog-server
+    container_name: laravel-blog-app-server
     ports:
       - 15555:80
-    environment:
-      - DB_HOST=host.docker.internal
-#  apache:
-#    build:
-#      context: '.'
-#    image: axmouth/laravel-blog-apache:latest
-#    container_name: laravel-blog-apache
-#    ports:
-#      - 15554:80
-#    links:
-#      - laravel-blog
+    depends_on:
+      - laravel-blog-app-db
+    links:
+      - 'laravel-blog-app-db:laravel-blog-db'
+  #  apache:
+  #    build:
+  #      context: '.'
+  #    image: axmouth/laravel-blog-apache:latest
+  #    container_name: laravel-blog-apache
+  #    ports:
+  #      - 15554:80
+  #    links:
+  #      - laravel-blog
+
+volumes:
+  laravel-blog-app-data:
