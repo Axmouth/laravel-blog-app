@@ -88,7 +88,7 @@ RUN chown -R www-data:www-data \
     /var/www/html/bootstrap/cache
 
 # RUN mv .env.prod .env
-
+RUN composer install
 RUN php artisan optimize
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
