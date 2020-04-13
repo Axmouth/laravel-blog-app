@@ -21,7 +21,7 @@
                 </a>
                 @else
                 <a href="/posts/{{$post->id}}">
-                    <img src="/storage/nopostimage.jpg" alt="Cover Image" style="width:100%">
+                    <img src="/nopostimage.jpg" alt="Cover Image" style="width:100%">
                 </a>
                 @endif
             </div>
