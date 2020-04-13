@@ -75,6 +75,10 @@ RUN chown -R www-data:www-data \
 
 # RUN mv .env.prod .env
 COPY .env .
+RUN php ./artisan cache:clear
+RUN php ./artisan route:clear
+RUN php ./artisan config:clear
+RUN php ./artisan view:clear
 RUN php ./artisan optimize
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
