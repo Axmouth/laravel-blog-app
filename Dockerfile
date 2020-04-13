@@ -79,10 +79,10 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm i -g npm
 RUN npm install
-COPY . .
 COPY composer.json .
 COPY composer.lock .
 RUN composer install
+COPY . .
 RUN npm run prod
 
 # Or do this
