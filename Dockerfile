@@ -80,8 +80,8 @@ COPY package-lock.json .
 RUN npm i -g npm
 RUN npm install
 COPY . .
-RUN npm run prod
 RUN composer install
+RUN npm run prod
 
 # Or do this
 RUN chown -R www-data:www-data \
