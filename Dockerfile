@@ -1,10 +1,6 @@
 FROM php:7.4-apache
 
-COPY composer.lock composer.json /var/www/
-
-COPY database /var/www/database
-
-WORKDIR /var/www
+WORKDIR /var/www/http
 
 RUN apt-get update
 
@@ -48,7 +44,6 @@ RUN docker-php-ext-install \
     bcmath \
     opcache \
     calendar \
-    #    mbstring \
     pdo_pgsql \
     zip
 
@@ -58,40 +53,28 @@ RUN docker-php-ext-enable mcrypt
 # 5. composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-#RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-#    #    && php -r "if (hash_file('SHA384', 'composer-setup.php') === 'a5c698ffe4b8e849a443b120cd5ba38043260d5c4023dbf93e1558871f1f07f58274fc6f4c93bcfd858c6bd0775cd8d1') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-#    && php composer-setup.php \
-#    && php -r "unlink('composer-setup.php');" \
-#    && php composer.phar install --no-dev --no-scripts \
-#    && rm composer.phar
-
-
-# 6. we need a user with the same UID/GID with host user
-# so when we execute CLI commands, all the host file's ownership remains intact
-# otherwise command from inside container will create root-owned files and directories
-#ARG uid
-#RUN useradd -G www-data,root -u $uid -d /home/devuser devuser
-#RUN mkdir -p /home/devuser/.composer && \
-#    chown -R devuser:devuser /home/devuser
-
 WORKDIR /var/www/html
-COPY package.json .
-COPY package-lock.json .
+COPY src/package.json .
+COPY src/package-lock.json .
 RUN npm i -g npm
 RUN npm install
-COPY . .
-RUN rm .env
+
+COPY src/composer.lock src/composer.json ./
+COPY src/database ./database
+COPY src/. .
 RUN composer install
+
 RUN npm run prod
 
 # Or do this
+COPY ownstoragefiles.sh .
 RUN chown -R www-data:www-data \
     /var/www/html/storage \
     /var/www/html/bootstrap/cache
 
 # RUN mv .env.prod .env
 COPY .env .
-RUN php artisan optimize
+RUN php ./artisan optimize
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
