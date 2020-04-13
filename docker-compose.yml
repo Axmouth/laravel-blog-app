@@ -1,39 +1,41 @@
 version: '3'
 services:
-  laravel-blog-app-db:
-    image: postgres:12.2-alpine
-    container_name: laravel-app-blog-db
-    env_file:
-      - .env
-    environment:
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DATABASE=${DB_DATABASE}
-    volumes:
-      - laravel-blog-app-data:/var/lib/postgresql/data:delegated
-  laravel-blog-app:
-    #network_mode: host
-    restart: always
-    image: axmouth/laravel-blog-server:latest
-    container_name: laravel-blog-app-server
-    ports:
-      - 15555:80
-    depends_on:
-      - laravel-blog-app-db
-    links:
-      - 'laravel-blog-app-db:laravel-blog-db'
-    volumes:
-      - laravel-blog-app-files:/var/www/html/public:delegated
-  #  apache:
-  #    build:
-  #      context: '.'
-  #    image: axmouth/laravel-blog-apache:latest
-  #    container_name: laravel-blog-apache
-  #    ports:
-  #      - 15554:80
-  #    links:
-  #      - laravel-blog
+        laravel-blog-app-db:
+                image: postgres:12.2-alpine
+                container_name: laravel-app-blog-db
+                env_file:
+                        - .env
+                environment:
+                        - POSTGRES_USER=${DB_USERNAME}
+                        - POSTGRES_PASSWORD=${DB_PASSWORD}
+                        - POSTGRES_DATABASE=${DB_DATABASE}
+                volumes:
+                        - laravel-blog-app-data:/var/lib/postgresql/data:delegated
+        laravel-blog-app:
+                build:
+                        context: .
+                        dockerfile: ./Dockerfile
+                restart: always
+                image: axmouth/laravel-blog-server:latest
+                container_name: laravel-blog-app-server
+                ports:
+                        - 15555:80
+                depends_on:
+                        - laravel-blog-app-db
+                links:
+                        - 'laravel-blog-app-db:laravel-app-blog-db'
+                volumes:
+                        - laravel-blog-app-files:/var/www/html/public:delegated
+        #  apache:
+        #    build:
+        #      context: '.'
+        #    image: axmouth/laravel-blog-apache:latest
+        #    container_name: laravel-blog-apache
+        #    ports:
+        #      - 15554:80
+        #    links:
+        #      - laravel-blog
 
 volumes:
-  laravel-blog-app-data:
-  laravel-blog-app-files:
+        laravel-blog-app-data:
+        laravel-blog-app-files:

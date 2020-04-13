@@ -61,7 +61,7 @@ RUN npm install
 
 COPY src/composer.lock src/composer.json ./
 COPY src/database ./database
-COPY src/. .
+COPY src .
 RUN composer install
 
 RUN npm run prod

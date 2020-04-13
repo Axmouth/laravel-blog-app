@@ -1,6 +1,4 @@
-mkdir -p /var/lib/laravel-blog-app/www/html/public
-docker build -f Dockerfile -t axmouth/laravel-blog-server .
-#docker build -f server/apache/Dockerfile -t axmouth/laravel-blog-apache .
+docker-compose build
 docker-compose up -d --remove-orphans
-docker-compose exec laravel-blog-app php artisan migrate
+COMPOSE_INTERACTIVE_NO_CLI=1 docker-compose exec laravel-blog-app php artisan migrate
 
