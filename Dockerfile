@@ -69,6 +69,7 @@ RUN npm run prod
 # Or do this
 COPY ownstoragefiles.sh .
 RUN chown -R www-data:www-data \
+    /var/www/html/public/* \
     /var/www/html/storage \
     /var/www/html/bootstrap/cache
 

@@ -1,4 +1,4 @@
-
+mkdir -p /var/lib/laravel-blog-app/www/html/public
 docker build -f Dockerfile -t axmouth/laravel-blog-server .
 #docker build -f server/apache/Dockerfile -t axmouth/laravel-blog-apache .
 docker-compose up -d --remove-orphans
