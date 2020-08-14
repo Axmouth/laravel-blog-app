@@ -24,7 +24,6 @@ services:
                 tty: true
                 image: axmouth/laravel-blog-backend:latest
                 container_name: laravel-blog-app-backend
-                # user: '$UID'
                 depends_on:
                         - laravel-blog-app-db
                 volumes:

@@ -59,57 +59,29 @@ RUN docker-php-ext-install gd
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 # Install composer
-#  COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Add user for laravel application
-#RUN groupadd -g 1000 www
-#RUN useradd -u 1000 -ms /bin/bash -g www www
 
 WORKDIR /var/www
 COPY src/package.json .
 COPY src/package-lock.json .
-#COPY --chown=www:www src/package.json .
-#COPY --chown=www:www src/package-lock.json .
 RUN npm i -g npm
 RUN npm install
 RUN npm audit fix
 
 
 # Copy existing application directory contents
-# COPY src/composer.lock src/composer.json ./
-# COPY src/database ./database
 COPY src .
-
-# Copy existing application directory permissions
-# COPY --chown=www:www src/composer.lock src/composer.json ./
-# COPY --chown=www:www src/database ./database
-#COPY --chown=www:www src .
-
-# Change current user to www
-#USER www
 
 RUN composer install
 
 RUN npm run prod
 
 # Or do this
-#RUN chown -R www:www \
-#    /var/www/public \
-#    /var/www/storage \
-#    /var/www/bootstrap/cache
 RUN chown -R www-data:www-data /var/www
 RUN chmod -R 755 /var/www/storage
 
 # RUN mv .env.prod .env
 COPY .env .
-#RUN php ./artisan cache:clear
-#RUN php ./artisan route:clear
-#RUN php ./artisan config:clear
-#RUN php ./artisan view:clear
-#RUN php ./artisan optimize
-#RUN php ./artisan storage:link
-
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000

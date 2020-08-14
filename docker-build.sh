@@ -8,6 +8,5 @@ docker-compose exec laravel-blog-app-backend php ./artisan route:clear
 docker-compose exec laravel-blog-app-backend php ./artisan config:clear
 docker-compose exec laravel-blog-app-backend php ./artisan view:clear
 docker-compose exec laravel-blog-app-backend php ./artisan optimize
-docker-compose exec laravel-blog-app-backend rm public/storage
 docker-compose exec laravel-blog-app-backend php ./artisan storage:link
 docker-compose exec laravel-blog-app-backend php ./artisan migrate
