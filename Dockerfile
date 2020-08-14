@@ -83,6 +83,13 @@ RUN chmod -R 755 /var/www/storage
 # RUN mv .env.prod .env
 COPY .env .
 
+RUN php ./artisan cache:clear
+RUN php ./artisan route:clear
+RUN php ./artisan config:clear
+RUN php ./artisan view:clear
+RUN php ./artisan optimize
+RUN php ./artisan storage:link
+
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
