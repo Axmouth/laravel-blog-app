@@ -20,12 +20,22 @@
             <div class="card bg-light">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4 col-sm-4">
-                            <a href="/posts/{{$post->id}}"><img src="/storage/cover_images/{{$post->cover_image}}" alt="Cover Image" style="width:100%"></a>
-                        </div>
+                        @if ($post->cover_image)
+                        <a href="/posts/{{$post->id}}">
+                            <img src="/storage/cover_images/{{$post->cover_image}}" alt="Cover Image" style="width:100%">
+                        </a>
+                        @else
+                        <a href="/posts/{{$post->id}}">
+                            <img src="/nopostimage.jpg" alt="Cover Image" style="width:100%">
+                        </a>
+                        @endif
                         <div class="col-md-4 col-sm-4">
                             <h3><a href="/posts/{{$post->id}}">{{$post->title}}</a></h3>
-                            <small>Written on {{$post->created_at}} by <a href="/users/{{$post->user->id}}">{{$post->user->name}}</a></small>
+                            <small>Written on {{$post->created_at}} by
+                                @if ($post->user->profile_image)
+                                <img class="profile-image" src="/storage/profile_images/{{$post->user->profile_image}}" alt="Profile Image" style="width:100%">
+                                @endif
+                                <a href="/users/{{$post->user->id}}">{{$post->user->name}}</a></small>
                         </div>
                     </div>
                 </div>

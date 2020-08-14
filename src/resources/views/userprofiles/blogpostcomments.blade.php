@@ -19,7 +19,7 @@
             @include('posts.comments')
             {{$comments->links()}}
             @else
-            <p>No posts found</p>
+            <p>No comments found</p>
             @endif
         </div>
     </div>

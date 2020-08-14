@@ -7,7 +7,7 @@
                 {{$comment->user->name}}</a></small>
         <p>{{$comment->body}}</p>
 
-        @if (Auth::user()->id === $comment->user_id)
+        @if (Auth::user() && Auth::user()->id === $comment->user_id)
         <div class="btn-group">
             <button class="btn" type="button" id="dropdownMenu{{$comment->id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons">more_vert</i></button>
             <div class="dropdown">

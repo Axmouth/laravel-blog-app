@@ -6,3 +6,4 @@ node_modules
 src/node_modules
 server/apache/Dockerfile
 src/server/apache/Dockerfile
+src/storage/app
