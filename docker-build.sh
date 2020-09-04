@@ -19,3 +19,4 @@ docker-compose exec -T laravel-blog-app-backend mkdir -p /var/www/storage/app/pu
 # docker-compose exec -T laravel-blog-app-backend chown -R $USER:www-data /var/www/storage/app/public
 # docker-compose exec -T laravel-blog-app-backend chown -R $USER:www-data /var/www/bootstrap/cache
 # docker-compose exec -T laravel-blog-app-backend chmod -R 755 /var/www/storage
+docker-compose exec -T laravel-blog-app-backend chown -R www-data: .
