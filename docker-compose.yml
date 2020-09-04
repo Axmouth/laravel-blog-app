@@ -1,54 +1,63 @@
-version: '3'
+version: "3"
 services:
-        laravel-blog-app-db:
-                image: postgres:12.3-alpine
-                container_name: laravel-app-blog-db
-                restart: unless-stopped
-                tty: true
-                env_file:
-                        - .env
-                environment:
-                        - POSTGRES_USER=${DB_USERNAME}
-                        - POSTGRES_PASSWORD=${DB_PASSWORD}
-                        - POSTGRES_DATABASE=${DB_DATABASE}
-                volumes:
-                        - laravel-blog-app-data:/var/lib/postgresql/data
-                networks:
-                        - laravel-blog-app-network
-        laravel-blog-app-backend:
-                working_dir: /var/www
-                build:
-                        context: .
-                        dockerfile: ./Dockerfile
-                restart: unless-stopped
-                tty: true
-                image: axmouth/laravel-blog-backend:latest
-                container_name: laravel-blog-app-backend
-                depends_on:
-                        - laravel-blog-app-db
-                volumes:
-                        - laravel-blog-app-files:/var/www/storage/app/public:delegated
-                networks:
-                        - laravel-blog-app-network
+  laravel-blog-app-db:
+    image: postgres:12.3-alpine
+    container_name: laravel-app-blog-db
+    restart: unless-stopped
+    tty: true
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DATABASE=${DB_DATABASE}
+    volumes:
+      - laravel-blog-app-data:/var/lib/postgresql/data
+    networks:
+      - laravel-blog-app-network
+  laravel-blog-app-backend:
+    working_dir: /var/www
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        user: axmouth
+        uid: 1000
+    restart: unless-stopped
+    tty: true
+    image: axmouth/laravel-blog-backend:latest
+    container_name: laravel-blog-app-backend
+    #user: '${UID}:${GID}'
+    env_file:
+      - .env
+    depends_on:
+      - laravel-blog-app-db
+    volumes:
+      - laravel-blog-app-files:/var/www/storage/app/public:rw
+    networks:
+      - laravel-blog-app-network
 
-        laravel-blog-app-webserver:
-                image: axmouth:laravel-app-blog-webserver
-                build:
-                        context: .
-                        dockerfile: ./nginx/Dockerfile
-                container_name: laravel-app-blog-webserver
-                restart: unless-stopped
-                tty: true
-                ports:
-                        - '15555:80'
-                volumes:
-                        - laravel-blog-app-files:/var/www/public/storage:delegated
-                networks:
-                        - laravel-blog-app-network
+  laravel-blog-app-webserver:
+    image: axmouth:laravel-app-blog-webserver
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    container_name: laravel-app-blog-webserver
+    #user: '${UID}:${GID}'
+    env_file:
+      - .env
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "15555:80"
+    volumes:
+      - laravel-blog-app-files:/var/www/public/storage:delegated
+    networks:
+      - laravel-blog-app-network
 volumes:
-        laravel-blog-app-data:
-        laravel-blog-app-files:
+  laravel-blog-app-data:
+  laravel-blog-app-files:
 
 networks:
-        laravel-blog-app-network:
-                driver: bridge
+  laravel-blog-app-network:
+    driver: bridge

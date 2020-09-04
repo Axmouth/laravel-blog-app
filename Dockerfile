@@ -80,15 +80,17 @@ RUN npm run prod
 RUN chown -R www-data:www-data /var/www
 RUN chmod -R 755 /var/www/storage
 
+# Arguments defined in docker-compose.yml
+ARG user
+ARG uid
+
+# Create system user to run Composer and Artisan Commands
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
 # RUN mv .env.prod .env
 COPY .env .
 
-RUN php ./artisan cache:clear
-RUN php ./artisan route:clear
-RUN php ./artisan config:clear
-RUN php ./artisan view:clear
-RUN php ./artisan optimize
-RUN php ./artisan storage:link
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
