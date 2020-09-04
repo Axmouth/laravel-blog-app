@@ -12,8 +12,8 @@ docker-compose exec -T laravel-blog-app-backend rm -rf public/storage
 docker-compose exec -T laravel-blog-app-backend php ./artisan storage:link
 docker-compose exec -T laravel-blog-app-backend php ./artisan migrate
 
-# docker-compose exec -T laravel-blog-app-backend mkdir -p /var/www/storage/app/public/profile_images
-# docker-compose exec -T laravel-blog-app-backend mkdir -p /var/www/storage/app/public/cover_images
+docker-compose exec -T laravel-blog-app-backend mkdir -p /var/www/storage/app/public/profile_images
+docker-compose exec -T laravel-blog-app-backend mkdir -p /var/www/storage/app/public/cover_images
 # docker-compose exec -T laravel-blog-app-backend chown -R www-data:www-data /var/www
 # docker-compose exec -T laravel-blog-app-backend chmod -R 755 /var/www/storage
 # docker-compose exec -T laravel-blog-app-backend chown -R $USER:www-data /var/www/storage/app/public

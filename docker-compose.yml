@@ -27,7 +27,6 @@ services:
     tty: true
     image: axmouth/laravel-blog-backend:latest
     container_name: laravel-blog-app-backend
-    #user: '${UID}:${GID}'
     env_file:
       - .env
     depends_on:
