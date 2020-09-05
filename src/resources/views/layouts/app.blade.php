@@ -11,7 +11,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" async></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -34,24 +35,13 @@
     </div>
     </main>
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
-    <script>
+    <script defer>
         $(document).ready(function () {
             if ($('#article-ckeditor')) {
                 $('#article-ckeditor').summernote();
             }
         });
     </script>
-    <!--script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
-    <script>
-        if (document.querySelector('#article-ckeditor')) {
-            ClassicEditor
-                .create(document.querySelector('#article-ckeditor'))
-                .catch(error => {
-                    console.error(error);
-                });
-        }
-    </script-->
     </div>
 </body>
 </html>
